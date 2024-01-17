@@ -1,5 +1,6 @@
 from django.db import models
 
+from config import settings
 from users.models import NULLABLE
 
 
@@ -28,3 +29,26 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = 'Урок'
         verbose_name_plural = 'Уроки'
+
+
+class Payments(models.Model):
+    payment_method = [
+        ('cash', 'наличные'),
+        ('transfer', 'перевод на счет')
+    ]
+
+    paid_course = [
+        ('course', 'Курс'),
+        ('lesson', 'Урок')
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='Пользователь',null=True, blank=True)
+    data_payments = models.DateField(verbose_name='Дата оплаты')
+    paid_course = models.CharField(choices=paid_course, default='course', verbose_name='Что оплачено')
+    payment_method = models.CharField(choices=payment_method, default='cash', verbose_name='Способ оплаты')
+
+    def __str__(self):
+        return f'{self.user}'
+
+    class Meta:
+        verbose_name = 'Платежи'
+        verbose_name_plural = 'Платежи'
