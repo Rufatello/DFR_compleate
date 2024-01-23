@@ -4,7 +4,7 @@ from users.models import UserRoles
 
 
 class IsModerator(BasePermission):
-    message = 'Нет возможности удалить'
+    message = 'Вы модератор'
 
     def has_permission(self, request, view):
         if request.user.role == UserRoles.MODERATOR:

@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from lesson.apps import LessonConfig
 from lesson.views import CourseViewSet, LessonCreateAPIView, LessonListAPIView, LessonDestroyAPIView, \
-    LessonUpdateAPIView, PaymentsListAPIView
+    LessonUpdateAPIView, PaymentsListAPIView, LessonRetrieveAPIView
 
 app_name = LessonConfig.name
 router = DefaultRouter()
