@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics
 from rest_framework.filters import OrderingFilter
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from lesson.models import Course, Lesson, Payments, Subscribe
 from lesson.paginations import LessonPagination
 from lesson.serliazers import CourseSerializer, LessonSerializer, PaymentsSerializer, SubscribeSerializer
@@ -40,14 +40,15 @@ class CourseViewSet(viewsets.ModelViewSet):
 class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsModerator | IsUser]
+    # permission_classes = [IsAuthenticated, IsModerator, IsUser]
+    permission_classes = [AllowAny]
     pagination_class = LessonPagination
 
-    def get_queryset(self):
-        if self.request.user.role == "member":
-            return Lesson.objects.filter(user=self.request.user)
-        elif self.request.user.role == 'moderator':
-            return Lesson.objects.all()
+    # def get_queryset(self):
+    #     if self.request.user.role == "member":
+    #         return Lesson.objects.filter(user=self.request.user)
+    #     elif self.request.user.role == 'moderator':
+    #         return Lesson.objects.all()
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
@@ -58,12 +59,13 @@ class LessonRetrieveAPIView(generics.RetrieveAPIView):
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated, IsModerator, IsUser]
+    # permission_classes = [IsAuthenticated, IsModerator, IsUser]
+    permission_classes = [AllowAny]
 
-    def perform_create(self, serializer):
-        new_lesson = serializer.save()
-        new_lesson.user = self.request.user
-        new_lesson.save()
+    # def perform_create(self, serializer):
+    #     new_lesson = serializer.save()
+    #     new_lesson.user = self.request.user
+    #     new_lesson.save()
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
