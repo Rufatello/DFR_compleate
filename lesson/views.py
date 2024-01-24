@@ -2,15 +2,16 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
-
-from lesson.models import Course, Lesson, Payments
-from lesson.serliazers import CourseSerializer, LessonSerializer, PaymentsSerializer
+from lesson.models import Course, Lesson, Payments, Subscribe
+from lesson.paginations import LessonPagination
+from lesson.serliazers import CourseSerializer, LessonSerializer, PaymentsSerializer, SubscribeSerializer
 from users.permissions import IsModerator, IsUser
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     permission_classes = [IsAuthenticated | IsModerator | IsUser]
+    pagination_class = LessonPagination
 
     def get_queryset(self):
         if self.request.user.role == "member":
@@ -40,6 +41,7 @@ class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsModerator | IsUser]
+    pagination_class = LessonPagination
 
     def get_queryset(self):
         if self.request.user.role == "member":
@@ -82,3 +84,14 @@ class PaymentsListAPIView(generics.ListAPIView):
     filter_backends = [OrderingFilter, DjangoFilterBackend]
     ordering_fields = ('data_payments',)
     filterset_fields = ('paid_course', 'payment_method',)
+
+
+class SubscribeViewSet(viewsets.ModelViewSet):
+    serializer_class = SubscribeSerializer
+    queryset = Subscribe.objects.all()
+    permission_classes = [IsAuthenticated, IsUser]
+
+    def perform_create(self, serializer):
+        new_lesson = serializer.save()
+        new_lesson.user = self.request.user
+        new_lesson.save()
