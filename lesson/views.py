@@ -71,13 +71,15 @@ class LessonCreateAPIView(generics.CreateAPIView):
 class LessonUpdateAPIView(generics.UpdateAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+    # permission_classes = [IsAuthenticated]
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsModerator]
+    permission_classes = [AllowAny]
+    # permission_classes = [IsAuthenticated, IsModerator]
 
 
 class PaymentsListAPIView(generics.ListAPIView):
@@ -91,7 +93,8 @@ class PaymentsListAPIView(generics.ListAPIView):
 class SubscribeViewSet(viewsets.ModelViewSet):
     serializer_class = SubscribeSerializer
     queryset = Subscribe.objects.all()
-    permission_classes = [IsAuthenticated, IsUser]
+    permission_classes = [AllowAny]
+    # permission_classes = [IsAuthenticated, IsUser]
 
     def perform_create(self, serializer):
         new_lesson = serializer.save()
