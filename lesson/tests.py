@@ -88,7 +88,8 @@ class LessonTestCase(APITestCase):
         )
 
         self.assertEquals(response.json(),
-                          {'pk': 5, 'title': 'test1123123123123123123', 'description': 'test1', 'course':  self.course.pk, 'user': self.user.id, 'link_video': 'https://youtube.com'}
+                          {'pk': 1
+                              , 'title': 'test1123123123123123123', 'description': 'test1', 'course':  self.course.pk, 'user': self.user.id, 'link_video': 'https://youtube.com'}
                           )
 
 

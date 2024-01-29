@@ -1,5 +1,5 @@
 from django.db import models
-
+import stripe
 from config import settings
 from users.models import NULLABLE
 
@@ -48,6 +48,11 @@ class Payments(models.Model):
     data_payments = models.DateField(verbose_name='Дата оплаты')
     paid_course = models.CharField(choices=paid_course, default='course', verbose_name='Что оплачено')
     payment_method = models.CharField(choices=payment_method, default='cash', verbose_name='Способ оплаты')
+    is_paid = models.BooleanField(default=False, verbose_name='статус оплаты')
+    amount = models.IntegerField(verbose_name='сумма оплаты', default=100)
+    session_id = models.CharField(max_length=150, verbose_name='id сессии', null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f'{self.user}'
