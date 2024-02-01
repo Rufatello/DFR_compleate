@@ -1,18 +1,16 @@
 from datetime import datetime
-
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-
-from rest_framework import viewsets, generics, status
+from rest_framework import viewsets, generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.views import APIView
-from rest_framework import status
 from lesson.models import Course, Lesson, Payments, Subscribe
 from lesson.paginations import LessonPagination
 from lesson.serliazers import CourseSerializer, LessonSerializer, PaymentsSerializer, SubscribeSerializer
 from users.permissions import IsModerator, IsUser
 import stripe
+
 
 class CourseViewSet(viewsets.ModelViewSet):
     """Вьюсет на курсы"""
@@ -49,8 +47,6 @@ class CourseViewSet(viewsets.ModelViewSet):
         elif self.action == 'destroy':
             permission_classes = [IsAuthenticated, IsModerator, IsUser]
         return [permission() for permission in permission_classes]
-
-
 
 
 class LessonListAPIView(generics.ListAPIView):
@@ -117,8 +113,6 @@ class PaymentsCreateApiView(generics.CreateAPIView):
     class PaymentsCreateApiView(generics.CreateAPIView):
         serializer_class = PaymentsSerializer
 
-
-
     def perform_create(self, serializer):
         new_lesson = serializer.save()
         new_lesson.user = self.request.user
@@ -146,10 +140,6 @@ class GetPaymentView(APIView):
         payment_intent = stripe.PaymentIntent.retrieve(payment_id)
         print(payment_intent)
         return Response({'status': payment_intent.status, 'body': payment_intent})
-
-
-
-
 
 
 class SubscribeViewSet(viewsets.ModelViewSet):
