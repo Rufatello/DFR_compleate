@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework_simplejwt',
     'drf_yasg',
-            # 'corsheaders',
+    'django_celery_beat',
 
     'users',
     'lesson',
@@ -117,7 +117,7 @@ AUTH_USER_MODEL = 'users.User'
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'en-en'
 
 TIME_ZONE = 'UTC'
 
@@ -153,3 +153,19 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# CELERY_TASK_TRACK_STARTED = True
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'fuckup@oscarbot.ru'
+EMAIL_HOST_PASSWORD = 'AsTSNVv7pun9'
+EMAIL_USE_SSL = True
+
+
+# EMAIL_HOST = 'smtp.yandex.ru'
+# EMAIL_PORT = 465
+# EMAIL_HOST_USER = 'geidarovrufat@yandex.ru'
+# EMAIL_HOST_PASSWORD = 'etmkgnowaujqzmtr'
+# EMAIL_USE_SSL = True

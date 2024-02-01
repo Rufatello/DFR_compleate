@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -17,6 +19,13 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     permission_classes = [IsAuthenticated | IsModerator | IsUser]
     pagination_class = LessonPagination
+
+    def partial_update(self, request, pk=None):
+        course = self.get_object()
+        course.date_update = datetime.now()
+        course.save(update_fields=['date_update'])
+        serializer = self.get_serializer(course)
+        return Response(serializer.data)
 
     def get_queryset(self):
         if self.request.user.role == "member":
@@ -40,6 +49,8 @@ class CourseViewSet(viewsets.ModelViewSet):
         elif self.action == 'destroy':
             permission_classes = [IsAuthenticated, IsModerator, IsUser]
         return [permission() for permission in permission_classes]
+
+
 
 
 class LessonListAPIView(generics.ListAPIView):
