@@ -15,6 +15,14 @@ def check_update():
                 recipient_list=[recipient_email]
 
             )
+        else:
+            send_mail(
+                subject='dasdasd',
+                message=f'dsadasd',
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[recipient_email]
+
+            )
     return len(i)
 
 
