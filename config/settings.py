@@ -159,13 +159,6 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'fuckup@oscarbot.ru'
-EMAIL_HOST_PASSWORD = 'AsTSNVv7pun9'
+EMAIL_HOST_USER = 'geidarovrufat@yandex.ru'
+EMAIL_HOST_PASSWORD = 'etmkgnowaujqzmtr'
 EMAIL_USE_SSL = True
-
-
-# EMAIL_HOST = 'smtp.yandex.ru'
-# EMAIL_PORT = 465
-# EMAIL_HOST_USER = 'geidarovrufat@yandex.ru'
-# EMAIL_HOST_PASSWORD = 'etmkgnowaujqzmtr'
-# EMAIL_USE_SSL = True
